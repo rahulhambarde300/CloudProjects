@@ -7,6 +7,8 @@ services:
     container_name: container1
     volumes:
       - ./:/volume
+    networks:
+      - csci5409-a1
   container2:
     image: "rahulh300/container2"
     ports:
@@ -15,6 +17,8 @@ services:
     volumes:
       - ./:/volume
     networks:
-      default:
-          aliases:
-              - container2
+      - csci5409-a1
+    
+networks:
+  csci5409-a1:
+    driver: bridge
