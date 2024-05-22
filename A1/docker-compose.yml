@@ -5,10 +5,12 @@ services:
     ports:
       - "6000:6000"
     container_name: container1
+    volumes:
+      - ./:/volume
   container2:
     image: "rahulh300/container2"
     ports:
-      - "7000:7000"
+      - "6001:6001"
     container_name: container2
     volumes:
       - ./:/volume

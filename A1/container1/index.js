@@ -18,7 +18,7 @@ app.use(
   );
   
 const http = axios.create({
-    baseURL: 'http://container2:7000'
+    baseURL: 'http://container2:6001'
 });
 
 app.post('/calculate', (req, res)=>{
