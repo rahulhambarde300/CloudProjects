@@ -41,7 +41,7 @@ app.post('/calculate', (req, res)=>{
     else{
         err = {
             "file": request.file ? request.file : null,
-            "error": "Invalid JSON input"
+            "error": "Invalid JSON input."
         }
         return res.status(400).json(err);
     }

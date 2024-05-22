@@ -31,34 +31,28 @@ app.post('/container2/calculate', (req, res)=>{;
                 "error": "Input file not in CSV format."
             }
 
-            let entryArr = data.split("\n");
+            let entryArr = data.trim().split("\n");
             const hashmap = new Map();
             for(let i = 0; i < entryArr.length; i++){
                 const entry = entryArr[i].trim().split(",")
+                if(entry.length == 0){
+                    continue;
+                }
                 if(entry.length != 2){
                     return res.status(200).json(file_invalid_res);
                 }
-                if(i === 0){
-                    if(entry[0].trim() !== "product" || entry[1].trim() !== "amount"){
-                        return res.status(200).json(file_invalid_res);
-                    }
+
+                const product = entry[0].trim();
+                const count = parseInt(entry[1].trim());
+
+                if(hashmap.has(product)){
+                    hashmap.set(product, hashmap.get(product) + count);
                 }
                 else{
-                    const product = entry[0].trim();
-                    const count = parseInt(entry[1].trim());
-                    if(product.length <= 0 || count < 0){
-                        return res.status(200).json(file_invalid_res);
-                    }
-                    else{
-                        if(hashmap.has(product)){
-                            hashmap.set(product, hashmap.get(product) + count);
-                        }
-                        else{
-                            hashmap.set(product, count);
-                        }
-
-                    }
+                    hashmap.set(product, count);
                 }
+
+                
             }
             const success_res = {
                 "file": request.file,
