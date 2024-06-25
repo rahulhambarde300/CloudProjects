@@ -1,0 +1,27 @@
+{
+  "name": "a1",
+  "version": "1.0.0",
+  "description": "Backend for lambda function",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "build": "webpack",
+    "prod": "node final.js"
+  },
+  "author": "Rahul H",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "latest",
+    "body-parser": "latest",
+    "dotenv": "^16.4.5",
+    "env": "^0.0.2",
+    "express": "^4.19.2",
+    "json2csv": "^6.0.0-alpha.2",
+    "mysql": "latest",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^5.1.4"
+  }
+}
