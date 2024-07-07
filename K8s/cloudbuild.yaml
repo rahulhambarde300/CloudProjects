@@ -1,0 +1,32 @@
+steps:
+  # Cloud build container 1
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/${PROJECT_ID}/cloud-repo/container1', 'container1']
+  
+  # Cloud build container 2
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/${PROJECT_ID}/cloud-repo/container2', 'container2']
+  
+  # Cloud push container 1
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/${PROJECT_ID}/cloud-repo/container1']
+  
+  # Cloud push container 2
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/${PROJECT_ID}/cloud-repo/container2']
+  
+  # Deploy to GKE
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: Deploy
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+          PROJECT=$(gcloud config get-value core/project)
+          gke-gcloud-auth-plugin --version
+          export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+          gcloud container clusters get-credentials "cloud-cluster" --project "${PROJECT_ID}" --zone "us-central1-a"
+          kubectl apply -f deploy.yaml
+
+options:
+  logging: CLOUD_LOGGING_ONLY
